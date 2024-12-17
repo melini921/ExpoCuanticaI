@@ -1,0 +1,284 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,activeacute,es-tabla]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{ragged2e}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage[T1]{fontenc}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{amsmath,bm}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{xcolor}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{cancel}
+
+\definecolor{rojoU}{RGB}{173,51,51}
+\definecolor{azulU}{RGB}{0,51,102}
+\definecolor{grisU}{RGB}{218,218,218}
+\definecolor{Green}{RGB}{34,139,34}
+
+\setbeamertemplate{caption}[numbered]
+\captionsetup{labelfont=color{black}}
+
+\usetheme{Madrid}
+\usecolortheme{beaver}
+%\usecolortheme{seahorse}
+\usefonttheme{serif}
+
+\title[GGA Made Simple]{\textbf{Generalized Gradient Approximation Made Simple}}
+
+
+
+\date{\today}
+
+\author[Melissa Niño]{ L. Melissa Niño Cera \\
+CC: 1094271637}
+
+\date{\today}
+
+\institute[]{
+    \textcolor{rojoU}{
+        Universidad de Pamplona\\  Facultad de ciencias básicas \\ 
+        Programa de física\\ Mecanica Cuantica I}
+    
+    \inst{}\\
+
+    \textcolor{white}{ThisIsEasterEggs}
+}
+
+%% La edición del documento empieza acá
+
+\begin{document}
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[scale=0.030]{escup.PNG}
+  \end{figure}
+ \maketitle
+\end{frame}
+
+
+\begin{frame}
+
+\frametitle{\textbf{TABLE OF CONTENTS }}
+
+\tableofcontents
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\textbf{DFT}}
+    
+\section{Density Functional Theory}
+
+
+%%Para dividir 
+    \begin{multicols}{2}
+       DFT (Density Functional Theory) is an approximation for computing the electronic structure of matter. It is built upon two fundamental principles developed in the 1960s \newline
+
+       \textbf{First Hohenberg-Kohn Theorem (HK):} \newline
+       All the information about the fundamental properties of a many-electron system is contained in its ground-state electronic density, 
+       $$\rho(\mathbf{r})$$
+
+       \textbf{Second Hohenberg-Kohn Theorem:}\newline
+       This theorem states that there exists a functional of the electronic density, 
+       $$F[\rho]$$
+       
+       which allows the calculation of the total energy of the system. The ground state of the system corresponds to the minimum of this energy functional.   
+    \end{multicols}
+        
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\textbf{Original Formulation}}
+
+%%Para espaciar
+\scriptsize
+
+Most approximations in solid-state physics and quantum chemistry involve solving the non-relativistic, time-independent Schrödinger equation.
+ \begin{equation}
+     H=-\sum_i^N \frac{\hbar^2}{2m_e}\nabla_i^2 -\sum_i^n \frac{\hbar^2}{2M_i}\nabla_i^2 +\frac{1}{4\pi\epsilon_0}\sum _{i,j}^{n,N}\frac{e^2Z_j}{\left| \vec{R}_i-\vec{r}_j \right|} +\frac{1}{4\pi\epsilon_0}\sum _{j<i}^{N}\frac{e^2}{\left| \vec{r}_i-\vec{r}_j \right|} +\frac{1}{4\pi\epsilon_0}\sum _{j<i}^{n}\frac{e^2Z_iZ_j}{\left| \vec{R}_i-\vec{r}_j \right|}
+ \end{equation}
+To simplify the problem, certain approximations are made, resulting in the following:  
+
+\begin{equation}
+    H_{elec}=T+V_{Ne}+V_{ee}
+\end{equation}
+
+The solution to the Schrödinger equation with \(H_{elec}\) is the electronic wave function and the electronic energy. The total energy is the sum of the electronic energy and the nuclear repulsion constant.  
+
+\begin{equation}
+    H_{elec}\Psi_{elec}=E_{elec}\Psi_{elec}
+\end{equation}
+
+\begin{equation}
+    E_{Tot}=E_{elec}+E_{nuc}, \quad \text{where } E_{nuc}=\sum_{j<i}^{n}\frac{Z_iZ_j}{\vec{R}_{ij}}
+\end{equation}
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\textbf{Kohn-Sham Scheme}}
+
+
+Later, Walter Kohn and Lu Sham developed the Kohn-Sham scheme, which simplifies solving the many-body problem. The electronic density (\(\rho(\mathbf{r})\)) is a three-dimensional function that describes the probability of finding electrons at different points in space. For a system with \(N\) electrons, the following condition holds:
+
+\begin{equation}
+    \int \rho(\mathbf{r}) \, d\mathbf{r} = N
+\end{equation}
+
+The total energy of the system is expressed as a functional of the electronic density:
+
+\begin{equation}
+    E[\rho] = T[\rho] + V_\text{ext}[\rho] + V_\text{ee}[\rho]
+\end{equation}
+        
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\textbf{Approximations to the Exchange-Correlation Functional}}
+    
+\section{Approximations to the Exchange-Correlation Functional}
+
+    \begin{multicols}{2}
+        DFT incorporates an additional term, the exchange-correlation functional, \(E_\text{xc}[\rho]\), which accounts for the more complex electronic interactions. \newline 
+
+        \textbf{LDA (Local Density Approximation):} This approximation models a system where electrons move in a positive background charge distribution.
+        \begin{equation}
+         E_{XC}^{LDA}[\rho] = \int \rho(\vec{r}) \epsilon_{XC}\big(\rho(\vec{r})\big) d\vec{r}
+        \end{equation} 
+
+        \textbf{GGA (Generalized Gradient Approximation):} It uses information about the density \(\rho(\vec{r})\) at a specific point \(\vec{r}\) and complements the density with information about the gradient of the charge density, \(\nabla \rho(\vec{r})\).
+
+        \begin{equation}
+        E_{XC}^{GGA}\left[ \rho_\alpha, \rho_\beta \right] = \int f\big( \rho_\alpha, \rho_\beta, \nabla\rho_\alpha, \nabla\rho_\beta \big) d\vec{r}
+        \end{equation}  
+
+        \textbf{Article Notation:} 
+
+        \begin{center}
+             LSD
+        \end{center}  
+        \begin{equation}
+        E_{XC}^{LSD}[n_\uparrow, n_\downarrow] = \int d^3r \, n \, \epsilon_{XC}^{\text{unif}}(n_\uparrow, n_\downarrow)  
+        \end{equation}   
+
+        \begin{center}
+            GGA
+        \end{center}  
+        \begin{equation}
+        E_{XC}^{GGA}[n_\uparrow, n_\downarrow] = \int d^3r \, n \, \epsilon_{XC}^{\text{unif}}(n_\uparrow, n_\downarrow)  
+        \end{equation}  
+        
+    \end{multicols}
+        
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\textbf{Correlation Energy (\(E_C\)) in GGA}}
+    
+\section{Proposal for a New GGA}
+
+
+    \begin{multicols}{2}
+        In the new GGA, the correlation energy is expressed as:
+
+\begin{equation}
+    E_C^{GGA}[n_\uparrow, n_\downarrow] = \int d^3r \, n \left[ \epsilon_C^{\text{unif}}(r_s, z) + H(r_s, z, t) \right],
+\end{equation}
+
+The term \(H\) is parameterized as: 
+
+ \begin{equation}
+     H = \frac{e^2}{a_0} \, g \, \ln \left( 1 + \frac{b}{g} t^2 \right)
+ \end{equation}
+
+ \(H(r_s, z, t)\) satisfies the following conditions:
+\begin{enumerate}
+    \item In the limit of uniform density (\(t \to 0\)):  
+    $$H \to b \, t^2, \quad b \approx 0.066725$$
+    \item In the limit of rapidly varying density (\(t \to \infty\)):  
+    $$H \to -\epsilon_C^{\text{unif}}$$  
+    causing the correlation to vanish.
+\end{enumerate}
+    \end{multicols}
+        
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\textbf{Exchange Energy (\(E_X\)) in GGA}}
+    
+
+The exchange term in GGA is described by:
+
+\begin{equation}
+    E_X^{GGA}[n_\uparrow, n_\downarrow] = \int d^3r \, n \, \epsilon_X^{\text{unif}}(n) F_X(s)
+\end{equation}
+
+The functional complies with the following conditions:
+\begin{enumerate}
+    \item In the limit of uniform density (\(s \to 0\))
+    $$ F_X(s) \to 1.$$
+    \item At the high density boundary  (\(s \to \infty\)):
+    $$ F_X(s) \leq 1.804$$
+    meeting Lieb-Oxford's requirement.
+ 
+\end{enumerate}
+        
+\end{frame}
+
+\begin{frame}{\textbf{Results:}}
+    \section{Results:}  
+
+    \scriptsize
+The simplified new GGA reproduces results comparable to PW91, but with a cleaner and more efficient model. Atomization energy calculations for small molecules show that the proposed functional achieves similar accuracy to PW91, but with a simpler implementation.
+
+\begin{figure}[h!]
+        \begin{center}
+        \includegraphics[width=3 in]{tablaresultados.PNG}
+            \caption{table of obtained results presented in the article.}
+            
+        \end{center}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\textbf{Conclusions}}
+    \section{Conclusions}
+
+The new GGA functional simplifies and improves upon the PW91 model by eliminating spurious oscillations and ensuring correct behavior in high-density limits. It provides accurate results for atomization energies while maintaining a simpler and more efficient computational implementation. This advancement enhances the practical applicability of DFT in molecular and solid-state systems, offering a robust and accessible tool for complex material studies.
+\end{frame}
+
+   
+\begin{frame}[plain]
+        \begin{center}
+            \vspace{0.5mm}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.05]{escup.PNG}
+            \end{figure}
+
+            \vspace{1mm}
+
+            \begin{block}{}
+                \vspace{0.5cm}
+                \Huge \textcolor{rojoU}{~\hfill \textbf{\textsf{THANKS}} ~\hfill}
+                \vspace{0.5cm}
+            \end{block}
+
+            
+        \end{center}
+\end{frame}
+
+\end{document}
